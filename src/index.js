@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
 
-const API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+const API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx';
 
 class App extends Component {
     constructor(props){
@@ -17,7 +17,12 @@ class App extends Component {
     }
 
     videoSearch(term){
-
+        YTSearch({key:API_KEY, term: term}, (videos) => {
+            this.setState({
+                videos: videos,
+                selectedVideo: videos[0]
+            });
+        });
     }
 
     render(){
@@ -25,6 +30,10 @@ class App extends Component {
         return ( 
             <div>
                 <SearchBar />
+                <VideoDetail video={this.state.selectedVideo} />
+                <VideoList 
+                    onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+                    videos={this.state.videos} />
             </div>
         ); 
     }
